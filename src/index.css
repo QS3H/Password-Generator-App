@@ -1,0 +1,103 @@
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/assets/fonts/JetBrainsMono-VariableFont_wght.ttf")
+    format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/assets/fonts/JetBrainsMono-Italic-VariableFont_wght.ttf")
+    format("truetype");
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Prevent text size adjustment on iOS */
+@supports (-webkit-touch-callout: none) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* Improve touch targets and interactions */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Custom slider styling */
+input[type="range"].slider {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 8px;
+  border-radius: 4px;
+}
+
+input[type="range"].slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #e6e5ea;
+  cursor: pointer;
+  border: 2px solid #e6e5ea;
+  transition: all 0.2s ease;
+  touch-action: none;
+}
+
+/* Larger thumb on mobile for better touch interaction */
+@media (max-width: 640px) {
+  input[type="range"].slider::-webkit-slider-thumb {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+input[type="range"].slider::-webkit-slider-thumb:hover {
+  background: #18171f;
+  border-color: #a4ffaf;
+}
+
+input[type="range"].slider::-webkit-slider-thumb:active {
+  background: #18171f;
+  border-color: #a4ffaf;
+}
+
+input[type="range"].slider::-moz-range-thumb {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #e6e5ea;
+  cursor: pointer;
+  border: 2px solid #e6e5ea;
+  transition: all 0.2s ease;
+  touch-action: none;
+}
+
+/* Larger thumb on mobile for better touch interaction */
+@media (max-width: 640px) {
+  input[type="range"].slider::-moz-range-thumb {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+input[type="range"].slider::-moz-range-thumb:hover {
+  background: #18171f;
+  border-color: #a4ffaf;
+}
+
+input[type="range"].slider::-moz-range-thumb:active {
+  background: #18171f;
+  border-color: #a4ffaf;
+}
