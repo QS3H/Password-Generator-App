@@ -22,7 +22,7 @@ export const PasswordDisplay = ({ password }: PasswordDisplayProps) => {
   // State to track if password was recently copied (used for visual feedback)
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef = useRef<number | null>(null);
 
   // Cleanup timeout on unmount
   useEffect(() => {
@@ -44,13 +44,13 @@ export const PasswordDisplay = ({ password }: PasswordDisplayProps) => {
     try {
       // Clear any existing error
       setError(null);
-      
+
       // Use Clipboard API to copy password
       await navigator.clipboard.writeText(password);
 
       // Set copied state to true for visual feedback
       setCopied(true);
-      
+
       // Announce to screen readers
       const button = document.activeElement as HTMLElement;
       if (button) {
@@ -71,7 +71,7 @@ export const PasswordDisplay = ({ password }: PasswordDisplayProps) => {
       // If it fails, it's likely due to permissions or security restrictions
       console.error("Failed to copy password:", err);
       setError("Failed to copy. Please try selecting and copying manually.");
-      
+
       // Clear error message after 3 seconds
       setTimeout(() => {
         setError(null);
@@ -152,10 +152,14 @@ export const PasswordDisplay = ({ password }: PasswordDisplayProps) => {
           )}
         </button>
       </div>
-      
+
       {/* Error message */}
       {error && (
-        <div className="mt-2 text-red-400 text-sm" role="alert" aria-live="polite">
+        <div
+          className="mt-2 text-red-400 text-sm"
+          role="alert"
+          aria-live="polite"
+        >
           {error}
         </div>
       )}
