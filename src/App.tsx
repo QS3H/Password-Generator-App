@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { usePasswordGenerator } from "./hooks/usePasswordGenerator";
 import {
   PasswordDisplay,
@@ -19,6 +19,8 @@ import {
  * - Handles option changes and password regeneration
  */
 function App() {
+  const [isLoaded, setIsLoaded] = useState(false);
+
   // Use custom hook to manage all password-related state and logic
   const {
     password, // Current generated password
@@ -27,6 +29,12 @@ function App() {
     setOptions, // Function to update options
     generateNewPassword, // Function to generate new password
   } = usePasswordGenerator();
+
+  // Trigger entrance animations after initial render
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoaded(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   /**
    * Effect hook that runs when component mounts
@@ -86,12 +94,16 @@ function App() {
       {/* Main Container */}
       <div className="w-full max-w-[540px] space-y-4 sm:space-y-5 md:space-y-6">
         {/* App Title */}
-        <h1 className="text-text-muted text-center text-xl sm:text-2xl md:text-3xl font-bold">
+        <h1 className={`text-text-muted text-center text-xl sm:text-2xl md:text-3xl font-bold transition-all duration-700 transform ${
+          isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+        }`}>
           Password Generator
         </h1>
 
         {/* Main Card Container */}
-        <div className="bg-app-bg rounded-lg overflow-hidden">
+        <div className={`bg-app-bg rounded-lg overflow-hidden transition-all duration-700 delay-300 transform ${
+          isLoaded ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'
+        }`}>
           {/* Password Display Section */}
           <PasswordDisplay password={password} />
 

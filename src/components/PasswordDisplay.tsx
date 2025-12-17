@@ -22,7 +22,20 @@ export const PasswordDisplay = ({ password }: PasswordDisplayProps) => {
   // State to track if password was recently copied (used for visual feedback)
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const [isButtonAnimating, setIsButtonAnimating] = useState(false);
   const timeoutRef = useRef<number | null>(null);
+  const prevPasswordRef = useRef<string>(password);
+
+  // Password change animation effect
+  useEffect(() => {
+    if (prevPasswordRef.current !== password && password) {
+      setIsAnimating(true);
+      const timer = setTimeout(() => setIsAnimating(false), 300);
+      return () => clearTimeout(timer);
+    }
+    prevPasswordRef.current = password;
+  }, [password]);
 
   // Cleanup timeout on unmount
   useEffect(() => {
@@ -44,6 +57,10 @@ export const PasswordDisplay = ({ password }: PasswordDisplayProps) => {
     try {
       // Clear any existing error
       setError(null);
+
+      // Trigger button animation
+      setIsButtonAnimating(true);
+      setTimeout(() => setIsButtonAnimating(false), 150);
 
       // Use Clipboard API to copy password
       await navigator.clipboard.writeText(password);
@@ -85,7 +102,9 @@ export const PasswordDisplay = ({ password }: PasswordDisplayProps) => {
         <div className="flex-1 min-w-0">
           {password ? (
             // Show actual password if generated
-            <p className="text-text-light text-lg sm:text-xl md:text-2xl lg:text-3xl font-mono break-all leading-tight">
+            <p className={`text-text-light text-lg sm:text-xl md:text-2xl lg:text-3xl font-mono break-all leading-tight transition-all duration-300 transform ${
+              isAnimating ? 'scale-105 opacity-80 translate-y-1' : 'scale-100 opacity-100 translate-y-0'
+            }`}>
               {password}
             </p>
           ) : (
@@ -102,11 +121,12 @@ export const PasswordDisplay = ({ password }: PasswordDisplayProps) => {
           disabled={!password} // Disable if no password to copy
           className={`
             flex items-center gap-2 sm:gap-3
-            transition-colors duration-200
+            transition-all duration-200 transform
             disabled:opacity-50 disabled:cursor-not-allowed
             min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0
             justify-center
             touch-manipulation
+            ${isButtonAnimating ? 'scale-110' : 'scale-100 hover:scale-105'}
             ${
               copied
                 ? "text-accent-green"
@@ -125,7 +145,7 @@ export const PasswordDisplay = ({ password }: PasswordDisplayProps) => {
                 width="14"
                 height="12"
                 xmlns="http://www.w3.org/2000/svg"
-                className="w-5 h-5 sm:w-5 sm:h-5 transition-colors duration-200 flex-shrink-0"
+                className="w-5 h-5 sm:w-5 sm:h-5 transition-all duration-300 flex-shrink-0 transform rotate-0"
                 aria-hidden="true"
               >
                 <path
@@ -141,7 +161,7 @@ export const PasswordDisplay = ({ password }: PasswordDisplayProps) => {
               width="21"
               height="24"
               xmlns="http://www.w3.org/2000/svg"
-              className="w-5 h-6 sm:w-5 sm:h-6 transition-colors duration-200 flex-shrink-0"
+              className="w-5 h-6 sm:w-5 sm:h-6 transition-all duration-300 flex-shrink-0 transform rotate-0"
               aria-hidden="true"
             >
               <path

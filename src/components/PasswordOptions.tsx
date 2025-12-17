@@ -1,4 +1,5 @@
 import { PasswordOptions as PasswordOptionsType } from "../types";
+import { useState } from "react";
 
 /**
  * Props interface for PasswordOptions component
@@ -27,6 +28,7 @@ export const PasswordOptions = ({
   options,
   onOptionsChange,
 }: PasswordOptionsProps) => {
+  const [isSliderInteracting, setIsSliderInteracting] = useState(false);
   /**
    * Handles changes to the password length slider
    *
@@ -38,6 +40,20 @@ export const PasswordOptions = ({
     const validatedLength = Math.max(4, Math.min(50, newLength));
     // Update options with new length (don't regenerate automatically)
     onOptionsChange({ ...options, length: validatedLength }, false);
+  };
+
+  /**
+   * Handles slider interaction start
+   */
+  const handleSliderMouseDown = () => {
+    setIsSliderInteracting(true);
+  };
+
+  /**
+   * Handles slider interaction end
+   */
+  const handleSliderMouseUp = () => {
+    setIsSliderInteracting(false);
   };
 
   /**
@@ -73,7 +89,9 @@ export const PasswordOptions = ({
             Character Length
           </label>
           {/* Display current length value */}
-          <span className="text-accent-green text-xl sm:text-2xl md:text-3xl font-bold">
+          <span className={`text-accent-green text-xl sm:text-2xl md:text-3xl font-bold transition-all duration-300 transform ${
+            isSliderInteracting ? 'scale-110 text-green-400' : 'scale-100'
+          }`}>
             {options.length}
           </span>
         </div>
@@ -86,11 +104,18 @@ export const PasswordOptions = ({
           max="50" // Maximum password length
           value={options.length}
           onChange={handleLengthChange}
-          className="w-full h-2 sm:h-2.5 bg-dark-bg rounded-full appearance-none cursor-pointer slider touch-manipulation"
+          onMouseDown={handleSliderMouseDown}
+          onMouseUp={handleSliderMouseUp}
+          onTouchStart={handleSliderMouseDown}
+          onTouchEnd={handleSliderMouseUp}
+          className={`w-full h-2 sm:h-2.5 bg-dark-bg rounded-full appearance-none cursor-pointer slider touch-manipulation transition-all duration-300 ${
+            isSliderInteracting ? 'scale-105' : 'hover:scale-102'
+          }`}
           style={{
             background: `linear-gradient(to right, #A4FFAF 0%, #A4FFAF ${
               ((options.length - 4) / (50 - 4)) * 100
             }%, #18171F ${((options.length - 4) / (50 - 4)) * 100}%, #18171F 100%)`,
+            transition: 'background 0.3s ease, transform 0.2s ease',
           }}
           aria-label="Password length"
           aria-valuemin={4}
@@ -121,12 +146,12 @@ export const PasswordOptions = ({
             type="checkbox"
             checked={options.uppercase}
             onChange={() => handleToggleOption("uppercase")}
-            className="w-5 h-5 sm:w-5 sm:h-5 cursor-pointer accent-accent-green rounded-sm transition-all duration-200 flex-shrink-0 touch-manipulation"
+            className="w-5 h-5 sm:w-5 sm:h-5 cursor-pointer accent-accent-green rounded-sm transition-all duration-300 flex-shrink-0 touch-manipulation hover:scale-110 checked:scale-105"
             aria-label="Include uppercase letters"
             aria-checked={options.uppercase}
             role="checkbox"
           />
-          <span className="text-text-light text-sm sm:text-base md:text-lg group-hover:text-accent-green transition-colors">
+          <span className="text-text-light text-sm sm:text-base md:text-lg group-hover:text-accent-green transition-all duration-300 group-hover:translate-x-1">
             Include Uppercase Letters
           </span>
         </label>
@@ -137,12 +162,12 @@ export const PasswordOptions = ({
             type="checkbox"
             checked={options.lowercase}
             onChange={() => handleToggleOption("lowercase")}
-            className="w-5 h-5 sm:w-5 sm:h-5 cursor-pointer accent-accent-green rounded-sm transition-all duration-200 flex-shrink-0 touch-manipulation"
+            className="w-5 h-5 sm:w-5 sm:h-5 cursor-pointer accent-accent-green rounded-sm transition-all duration-300 flex-shrink-0 touch-manipulation hover:scale-110 checked:scale-105"
             aria-label="Include lowercase letters"
             aria-checked={options.lowercase}
             role="checkbox"
           />
-          <span className="text-text-light text-sm sm:text-base md:text-lg group-hover:text-accent-green transition-colors">
+          <span className="text-text-light text-sm sm:text-base md:text-lg group-hover:text-accent-green transition-all duration-300 group-hover:translate-x-1">
             Include Lowercase Letters
           </span>
         </label>
@@ -153,12 +178,12 @@ export const PasswordOptions = ({
             type="checkbox"
             checked={options.numbers}
             onChange={() => handleToggleOption("numbers")}
-            className="w-5 h-5 sm:w-5 sm:h-5 cursor-pointer accent-accent-green rounded-sm transition-all duration-200 flex-shrink-0 touch-manipulation"
+            className="w-5 h-5 sm:w-5 sm:h-5 cursor-pointer accent-accent-green rounded-sm transition-all duration-300 flex-shrink-0 touch-manipulation hover:scale-110 checked:scale-105"
             aria-label="Include numbers"
             aria-checked={options.numbers}
             role="checkbox"
           />
-          <span className="text-text-light text-sm sm:text-base md:text-lg group-hover:text-accent-green transition-colors">
+          <span className="text-text-light text-sm sm:text-base md:text-lg group-hover:text-accent-green transition-all duration-300 group-hover:translate-x-1">
             Include Numbers
           </span>
         </label>
@@ -169,12 +194,12 @@ export const PasswordOptions = ({
             type="checkbox"
             checked={options.symbols}
             onChange={() => handleToggleOption("symbols")}
-            className="w-5 h-5 sm:w-5 sm:h-5 cursor-pointer accent-accent-green rounded-sm transition-all duration-200 flex-shrink-0 touch-manipulation"
+            className="w-5 h-5 sm:w-5 sm:h-5 cursor-pointer accent-accent-green rounded-sm transition-all duration-300 flex-shrink-0 touch-manipulation hover:scale-110 checked:scale-105"
             aria-label="Include symbols"
             aria-checked={options.symbols}
             role="checkbox"
           />
-          <span className="text-text-light text-sm sm:text-base md:text-lg group-hover:text-accent-green transition-colors">
+          <span className="text-text-light text-sm sm:text-base md:text-lg group-hover:text-accent-green transition-all duration-300 group-hover:translate-x-1">
             Include Symbols
           </span>
         </label>

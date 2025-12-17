@@ -1,4 +1,5 @@
 import { StrengthResult } from "../types";
+import { useEffect, useState } from "react";
 
 /**
  * Props interface for StrengthIndicator component
@@ -23,6 +24,30 @@ interface StrengthIndicatorProps {
  * - 4: VERY STRONG (green)
  */
 export const StrengthIndicator = ({ strength }: StrengthIndicatorProps) => {
+  const [animatedBars, setAnimatedBars] = useState<number[]>([]);
+  const [prevStrength, setPrevStrength] = useState<number>(strength.level);
+
+  // Animate bars when strength changes
+  useEffect(() => {
+    if (prevStrength !== strength.level) {
+      setAnimatedBars([]);
+      // Stagger the animation for each bar
+      for (let i = 0; i <= strength.level; i++) {
+        setTimeout(() => {
+          setAnimatedBars(prev => [...prev, i]);
+        }, i * 100); // 100ms delay between each bar
+      }
+      setPrevStrength(strength.level);
+    } else if (animatedBars.length === 0 && strength.level > 0) {
+      // Initial animation on mount
+      for (let i = 0; i <= strength.level; i++) {
+        setTimeout(() => {
+          setAnimatedBars(prev => [...prev, i]);
+        }, i * 100);
+      }
+    }
+  }, [strength.level, prevStrength, animatedBars.length]);
+
   // Don't render if no strength data (password not generated yet)
   if (!strength.label) {
     return null;
@@ -80,10 +105,12 @@ export const StrengthIndicator = ({ strength }: StrengthIndicatorProps) => {
           {[0, 1, 2, 3].map((index) => (
             <div
               key={index}
-              className={`w-2 sm:w-2.5 h-6 sm:h-7 border-2 transition-colors duration-200 ${
-                index < strength.level
-                  ? `${getStrengthColor(strength.level)} border-transparent`
-                  : "bg-transparent border-text-light"
+              className={`w-2 sm:w-2.5 h-6 sm:h-7 border-2 transition-all duration-300 transform ${
+                animatedBars.includes(index) && index < strength.level
+                  ? `${getStrengthColor(strength.level)} border-transparent scale-110`
+                  : index < strength.level
+                  ? `${getStrengthColor(strength.level)} border-transparent scale-100`
+                  : "bg-transparent border-text-light scale-100"
               }`}
               aria-hidden="true"
             />
