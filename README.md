@@ -28,11 +28,11 @@ Users should be able to:
 
 ### Screenshot
 
-![](./assets/preview.jpg)
+![](./assets/screenshot.png)
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://your-solution-url.com)
+- Solution URL: [Add solution URL here](https://qs3h.github.io/Password-Generator-App/)
 - Live Site URL: [Add live site URL here](https://your-live-site-url.com)
 
 ## My process
@@ -126,4 +126,4 @@ Areas I'd like to continue improving:
 
 ## Author
 
-- Frontend Mentor - [@yourusername](https://www.frontendmentor.io/profile/yourusername)
+- Frontend Mentor - [@QS3H](https://www.frontendmentor.io/profile/QS3H)
