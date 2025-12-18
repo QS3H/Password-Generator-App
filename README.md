@@ -37,8 +37,8 @@ Users should be able to:
 
 ### Links
 
-- Solution URL: [Add solution URL here](https://qs3h.github.io/Password-Generator-App/)
-- Live Site URL: [Add live site URL here](https://your-live-site-url.com)
+- Solution URL: [My solution on Frontend Mentor](https://www.frontendmentor.io/solutions/password-generator-app-with-react-typescript-and-tailwindcss-3KSLGzmClm)
+- Live Site URL: [live password generator app](https://qs3h.github.io/Password-Generator-App/)
 
 ## My process
 
