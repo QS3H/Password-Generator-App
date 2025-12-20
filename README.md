@@ -33,8 +33,6 @@ Users should be able to:
 
 ![](./assets/screenshot.png)
 
-**✨ Enhanced with smooth animations and delightful micro-interactions for an improved user experience!**
-
 ### Links
 
 - Solution URL: [My solution on Frontend Mentor](https://www.frontendmentor.io/solutions/password-generator-app-with-react-typescript-and-tailwindcss-3KSLGzmClm)
